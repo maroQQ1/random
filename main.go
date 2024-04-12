@@ -2,26 +2,36 @@ package main
 
 import (
 	"fmt"
-	"net"
+	"log"
+	"math/rand"
 )
 
-func main() {
-	message := "Hello, I am a server" // отправляемое сообщение
-	listener, err := net.Listen("tcp", ":4545")
+var gueNumber int
 
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer listener.Close()
-	fmt.Println("Server is listening...")
+func main() {
+	fmt.Println("Угадай число и получи приз")
+	min, max := 1, 50
+	secretNumber := rand.Intn(max-min) + min
+
 	for {
-		conn, err := listener.Accept()
+		fmt.Print("Введите ваше предположение: ")
+		_, err := fmt.Scanln(&gueNumber)
 		if err != nil {
-			fmt.Println(err)
-			return
+			log.Fatal(err)
 		}
-		conn.Write([]byte(message))
-		conn.Close()
+
+		if gueNumber == secretNumber {
+			fmt.Println("Поздравляем, вы угадали число!Ваш приз https://www.youtube.com/watch?v=wjI_iJyjiU8&pp=ygUM0YDQuNC60YDQvtC7")
+			break
+		} else {
+			fmt.Println("Увы, цифры были", secretNumber, "поощерительный приз https://www.youtube.com/watch?v=wjI_iJyjiU8&pp=ygUM0YDQuNC60YDQvtC7 ")
+		}
+	}
+}
+func fore() {
+	for secretNumber := 0; secretNumber < 25; secretNumber++ {
+		if gueNumber == secretNumber {
+			break
+		}
 	}
 }
